@@ -175,7 +175,7 @@
 </ol>
 <ul>
 <li>constructor是obj的原型链上的一个属性。constructor可以被改变(native constructor除外)。</li>
-<li><p>instanceof运算符用来检测<strong>constructor.prototype是否存在于参数object的原型链上</strong>。</p>
+<li><p>instanceof运算符用来检测<strong>constructor.prototype是否存在于参数object的原型链上</strong>。（Math, JSON and arguments）没有构造函数）</p>
 <pre><code><span class="function"><span class="keyword">function</span> <span class="title">C</span><span class="params">()</span></span>{}
 <span class="function"><span class="keyword">function</span> <span class="title">D</span><span class="params">()</span></span>{}
 
@@ -183,9 +183,8 @@
 
 <span class="comment">// true, because: Object.getPrototypeOf(o) === C.prototype</span>
 o <span class="keyword">instanceof</span> C;
-</code></pre></li>
-</ul>
-<pre><code>o.constructor === C;<span class="comment">// true</span>
+
+o.constructor === C;<span class="comment">// true</span>
 
 <span class="comment">// false, because D.prototype is nowhere in o's prototype chain</span>
 o <span class="keyword">instanceof</span> D;
@@ -196,12 +195,11 @@ C.prototype <span class="keyword">instanceof</span> <span class="built_in">Objec
 C.prototype = {};
 <span class="keyword">var</span> o2 = <span class="keyword">new</span> C();
 
-
 o2 <span class="keyword">instanceof</span> C; <span class="comment">// true</span>
 o2.constructor === <span class="built_in">Object</span> <span class="comment">//true</span>
-
-
-<span class="comment">// false, because C.prototype is nowhere in</span>
+</code></pre></li>
+</ul>
+<pre><code><span class="comment">// false, because C.prototype is nowhere in</span>
 <span class="comment">// o's prototype chain anymore</span>
 <span class="comment">// C.prototype 不在o's的原型链上</span>
 o <span class="keyword">instanceof</span> C; 
@@ -263,6 +261,18 @@ o3 <span class="keyword">instanceof</span> C; <span class="comment">// true</spa
 <p>注4：ie8 <code>typeof document.getElementById</code> 为object</p>
 <p>注5：typeof NaN number</p>
 <p>注6：typeof 应该只被用于检测 undefined <a href="http://javascript.info/tutorial/type-detection" target="_blank" rel="external">参见</a></p>
+<pre><code><span class="keyword">typeof</span> {a: <span class="number">4</span>}; <span class="comment">//"object"</span>
+<span class="keyword">typeof</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]; <span class="comment">//"object"</span>
+(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{<span class="built_in">console</span>.log(<span class="keyword">typeof</span> <span class="built_in">arguments</span>)})(); <span class="comment">//object</span>
+<span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">ReferenceError</span>; <span class="comment">//"object"</span>
+<span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">Date</span>; <span class="comment">//"object"</span>
+<span class="keyword">typeof</span> /a-z/; <span class="comment">//"object"</span>
+<span class="keyword">typeof</span> <span class="built_in">Math</span>; <span class="comment">//"object"</span>
+<span class="keyword">typeof</span> <span class="built_in">JSON</span>; <span class="comment">//"object"</span>
+<span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">Number</span>(<span class="number">4</span>); <span class="comment">//"object"</span>
+<span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">String</span>(<span class="string">"abc"</span>); <span class="comment">//"object"</span>
+<span class="keyword">typeof</span> <span class="keyword">new</span> <span class="built_in">Boolean</span>(<span class="literal">true</span>); <span class="comment">//"object"</span>
+</code></pre><h2 id="Object-prototype-toString-call">Object.prototype.toString.call</h2><p>代替typeof,instanceof</p>
 <h2 id="Array">Array</h2><p>ECMAScript 5 新增了Array.isArray()方法用于确定某个值到底是不是函数,替代方法可用</p>
 <pre><code><span class="built_in">Object</span>.prototype.toString.<span class="keyword">call</span>(vArg) === <span class="string">"[object Array]"</span>
 </code></pre><p>直接调用Object的toString函数，用这个方法可以确定很容易确定js内置对象的类型（reg?）。还可以使用</p>
@@ -284,7 +294,7 @@ obj === <span class="keyword">void</span> <span class="number">0</span>
 
 <span class="built_in">isFinite</span>(<span class="number">0</span>);         <span class="comment">// true</span>
 <span class="built_in">isFinite</span>(<span class="number">2e64</span>);      <span class="comment">// true</span>
-</code></pre><h3 id="Integer">Integer</h3><pre><code><span class="built_in">Number</span>.isInteger() <span class="comment">//ECMAScript 6</span>
+</code></pre><h2 id="Integer">Integer</h2><pre><code><span class="built_in">Number</span>.isInteger() <span class="comment">//ECMAScript 6</span>
 
 <span class="comment">//Polyfill</span>
 <span class="built_in">Number</span>.isInteger = <span class="built_in">Number</span>.isInteger || <span class="function"><span class="keyword">function</span><span class="params">(value)</span> </span>{
